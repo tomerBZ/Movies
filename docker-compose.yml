@@ -1,0 +1,35 @@
+version: "3.5"
+services:
+  php_fpm:
+    build: .
+    container_name: movies_php_fpm
+    working_dir: /usr/share/nginx/movies
+    networks:
+      - movies
+    volumes:
+      - ./:/usr/share/nginx/movies
+  nginx:
+    image: nginx:1.15
+    container_name: movies_nginx
+    working_dir: /usr/share/nginx/movies
+    networks:
+      - movies
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/usr/share/nginx/movies
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+#      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+#  mysql:
+#    image: mysql:5.7
+#    container_name: blog_mysql
+#    networks:
+#      - blog
+#    environment:
+#      - MYSQL_DATABASE=blog
+#      - MYSQL_ROOT_PASSWORD=password
+#      - MYSQL_USER=blog
+#      - MYSQL_PASSWORD=password
+networks:
+  movies:
+    driver: bridge
