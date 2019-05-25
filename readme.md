@@ -1,4 +1,4 @@
-#Movies Recommendations
+# Movies Recommendations
 
 Laravel movies recommendations API - MyCheck home assignment  
 
