@@ -9,6 +9,8 @@ Laravel movies recommendations API - MyCheck home assignment
 
 ## Run with Docker
 ```
+git clone git@github.com:tomerBZ/Movies.git
+cd Movies
 docker-compose up --build -d
 ```
 Open [localhost:8080](http://localhost:8080) on your broswer
