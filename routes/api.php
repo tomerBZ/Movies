@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/{movie_id}', 'Api\RecommendationsController@show');
+Route::get('/', 'Api\RecommendationsController@index');
+Route::get('/{movie_id}/{depth?}', 'Api\RecommendationsController@show');

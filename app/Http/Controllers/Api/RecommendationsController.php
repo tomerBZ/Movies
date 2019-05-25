@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\MoviesService;
-use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Http\Response;
+use App\Services\MoviesService;
 use App\Http\Controllers\Controller;
 
 class RecommendationsController extends Controller
@@ -21,7 +21,7 @@ class RecommendationsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,47 +29,19 @@ class RecommendationsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @param int $depth
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function show(int $id, int $depth = null)
     {
-        //
-    }
+        try {
+            $recommendations = $this->moviesService->getRecommendations($id, $depth);
+        } catch (Exception $exception) {
+            return response()->json(['data' => $exception->getMessage() ?: 'Unexpected error'], $exception->getCode() ?: 500);
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return $this->moviesService->getRecommendations($id);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($recommendations);
     }
 }
+
